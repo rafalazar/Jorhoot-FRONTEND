@@ -1,0 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Tilt+Neon&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  box-sizing: border-box;
+  background: #6b27d1;
+  background: linear-gradient(135deg, #6b27d1, #f93184);
+  color: white;
+}
