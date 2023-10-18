@@ -33,8 +33,6 @@ const Vote = () => {
         console.error('POST request failed. Error:', error);
       });
 
-    console.log(result);
-
     navigate(
       {
         pathname: '/results',
@@ -48,8 +46,18 @@ const Vote = () => {
     );
   };
 
-  if (error) return <div>failed to load</div>;
-  if (isLoading) return <div>loading...</div>;
+  if (error)
+    return (
+      <div className='h-screen flex justify-center items-center'>
+        failed to load
+      </div>
+    );
+  if (isLoading)
+    return (
+      <div className='h-screen flex justify-center items-center'>
+        loading...
+      </div>
+    );
 
   return (
     <div className='h-screen flex justify-center items-center'>

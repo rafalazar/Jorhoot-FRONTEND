@@ -1,9 +1,14 @@
-import { Link, createSearchParams, useNavigate } from 'react-router-dom';
+import { createSearchParams, useNavigate } from 'react-router-dom';
+import { usePlayerStore } from '../store/store';
 
 const Survey = ({ id, title, desc }) => {
   const navigate = useNavigate();
 
+  const updateSurveyTitle = usePlayerStore((store) => store.updateSurveyTitle);
+
   const handleClick = (identifier) => {
+    updateSurveyTitle(title);
+
     navigate(
       {
         pathname: '/vote',

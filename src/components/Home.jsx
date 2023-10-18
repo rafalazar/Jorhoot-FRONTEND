@@ -6,7 +6,6 @@ const Home = () => {
   const [name, setName] = useState('');
   const navigate = useNavigate();
 
-  const userName = usePlayerStore((store) => store.userName);
   const updateUserName = usePlayerStore((store) => store.updateUserName);
 
   const handleClick = (e) => {
@@ -18,7 +17,6 @@ const Home = () => {
     }
 
     updateUserName(name);
-    console.log(userName);
     setName('');
 
     navigate('surveys');

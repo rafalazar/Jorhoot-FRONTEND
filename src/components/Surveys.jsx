@@ -1,19 +1,24 @@
-import useSWR from 'swr';
 import { usePlayerStore } from '../store/store';
 import Survey from './Survey';
-import axios from 'axios';
+import { useSurvey } from './customHooks/useSurvey';
 
 const Surveys = () => {
-  const fetcher = (url) =>
-    axios
-      .get(`https://localhost:7115/api/Survey/${url}`)
-      .then((res) => res.data);
-  const { data, error, isLoading } = useSWR('surveys', fetcher);
+  const { data, error, isLoading } = useSurvey();
 
   const username = usePlayerStore((store) => store.userName);
 
-  if (error) return <div>failed to load</div>
-  if (isLoading) return <div>loading...</div>
+  if (error)
+    return (
+      <div className='h-screen flex justify-center items-center'>
+        failed to load
+      </div>
+    );
+  if (isLoading)
+    return (
+      <div className='h-screen flex justify-center items-center'>
+        loading...
+      </div>
+    );
 
   return (
     <div className='h-screen flex flex-col mt-10 gap-y-20'>

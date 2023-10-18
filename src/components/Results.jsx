@@ -2,32 +2,34 @@ import axios from 'axios';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import useSWR from 'swr';
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from 'recharts';
+import { usePlayerStore } from '../store/store';
 
 const Results = () => {
   const [searchparams] = useSearchParams();
   const idSurvey = searchparams.get('idSurvey');
 
   const navigate = useNavigate();
-
-  const fetcherSurvey = (url) =>
-    axios
-      .get(`https://localhost:7115/api/Survey/${url}/${idSurvey}`)
-      .then((res) => res.data);
+  const surveyTitle = usePlayerStore((store) => store.surveyTitle);
 
   const fetcherOpt = (url) =>
     axios
       .get(`https://localhost:7115/api/Survey/${url}/${idSurvey}`)
       .then((res) => res.data);
 
-  const {
-    data: surveyData,
-    error: surveyError,
-    isLoading: surIsloading,
-  } = useSWR('survey', fetcherSurvey);
   const { data: optionData, error, isLoading } = useSWR('option', fetcherOpt);
 
-  if (surveyError || error) return <div>failed to load</div>;
-  if (surIsloading || isLoading) return <div>loading...</div>;
+  if (error)
+    return (
+      <div className='h-screen flex justify-center items-center'>
+        failed to load
+      </div>
+    );
+  if (isLoading)
+    return (
+      <div className='h-screen flex justify-center items-center'>
+        loading...
+      </div>
+    );
 
   const data = optionData.map((opt) => {
     return {
@@ -45,7 +47,7 @@ const Results = () => {
       <div className='h-[80%] grid grid-cols-1 justify-center items-center gap-10 sm:grid-cols-2'>
         <div className='text-center'>
           <h3 className='text-xl'>Los resultados para la pregunta</h3>
-          <p className='text-xl'>{surveyData.question}</p>
+          <p className='text-xl'>{surveyTitle}</p>
         </div>
         <ResponsiveContainer width={500} height={350}>
           <BarChart data={data}>
@@ -62,7 +64,6 @@ const Results = () => {
               fontSize={12}
               tickLine={false}
               axisLine={false}
-              tickFormatter={(value) => `$${value}`}
             />
 
             <Bar dataKey='amount' fill='#1df3fa' radius={[4, 4, 0, 0]} />
