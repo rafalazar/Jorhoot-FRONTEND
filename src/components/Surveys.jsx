@@ -1,6 +1,6 @@
 import { usePlayerStore } from '../store/store';
 import Survey from './Survey';
-import { useSurvey } from './customHooks/useSurvey';
+import { useSurvey } from './customHooks';
 
 const Surveys = () => {
   const { data, error, isLoading } = useSurvey();

@@ -1,11 +1,11 @@
-import axios from 'axios';
 import { useState } from 'react';
 import {
   createSearchParams,
   useNavigate,
   useSearchParams,
 } from 'react-router-dom';
-import useSWR from 'swr';
+import { updateSurveyOptionValue } from '../api/updateSurvey';
+import { useOption } from './customHooks';
 
 const Vote = () => {
   const [searchparams] = useSearchParams();
@@ -13,11 +13,7 @@ const Vote = () => {
 
   const navigate = useNavigate();
 
-  const fetcher = (url) =>
-    axios
-      .get(`https://localhost:7115/api/Survey/${url}/${id}`)
-      .then((res) => res.data);
-  const { data, error, isLoading } = useSWR('option', fetcher);
+  const { data, error, isLoading } = useOption(id);
 
   const [selectedOption, setSelectedOption] = useState('');
 
@@ -27,11 +23,10 @@ const Vote = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const result = await axios
-      .post(`https://localhost:7115/api/Survey/option/${selectedOption}`)
-      .catch((error) => {
-        console.error('POST request failed. Error:', error);
-      });
+
+    const result = await updateSurveyOptionValue(selectedOption);
+
+    console.log(result);
 
     navigate(
       {

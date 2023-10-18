@@ -1,8 +1,7 @@
-import axios from 'axios';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import useSWR from 'swr';
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from 'recharts';
 import { usePlayerStore } from '../store/store';
+import { useResult } from './customHooks';
 
 const Results = () => {
   const [searchparams] = useSearchParams();
@@ -11,12 +10,7 @@ const Results = () => {
   const navigate = useNavigate();
   const surveyTitle = usePlayerStore((store) => store.surveyTitle);
 
-  const fetcherOpt = (url) =>
-    axios
-      .get(`https://localhost:7115/api/Survey/${url}/${idSurvey}`)
-      .then((res) => res.data);
-
-  const { data: optionData, error, isLoading } = useSWR('option', fetcherOpt);
+  const { data: optionData, error, isLoading } = useResult(idSurvey);
 
   if (error)
     return (
