@@ -1,19 +1,15 @@
 import axios from 'axios';
 import useSWR from 'swr';
+import { apiURL } from '../../util/constants';
 
 export function useSurvey() {
-  const apiUrl = import.meta.env.VITE_SURVEY_API_URL;
-
-  const fetcher = (url) =>
-    axios
-      .get(`${apiUrl}${url}`)
-      .then((res) => res.data);
+  const fetcher = (url) => axios.get(`${apiURL}${url}`).then((res) => res.data);
 
   const { data, error, isLoading } = useSWR('surveys', fetcher);
 
   return {
     data,
     error,
-    isLoading
+    isLoading,
   };
 }
