@@ -6,7 +6,7 @@ export function useResult(idSurvey) {
   const fetcher = (url) =>
     axios.get(`${apiURL}${url}/${idSurvey}`).then((res) => res.data);
 
-  const { data, error, isLoading } = useSWR('option', fetcher);
+  const { data, error, isLoading } = useSWR('option', fetcher, {refreshInterval: 500});
 
   return {
     data,
